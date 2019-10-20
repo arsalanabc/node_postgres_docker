@@ -1,8 +1,8 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 3000;
 
-app.get('/', (req, res) => res.send("welcome to my page"))
+const routes = require('./src/routes/routes.js')(app);
 
 app.listen(port, () => console.log('example of app listening'))
 
