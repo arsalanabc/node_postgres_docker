@@ -4,5 +4,7 @@ services:
     image: postgres
     env_file:
       - app/.env
+    volumes:
+      - ./app/database/:/docker-entrypoint-initdb.d/
     ports:
       - 5432:5432
