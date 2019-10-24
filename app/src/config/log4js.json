@@ -17,7 +17,7 @@
     },
     "exceptions": {
       "type": "file",
-      "level": "FATAL",
+      "level": "ERROR",
       "filename": "var/log/exceptions.log",
       "category": "exceptions"
     }
@@ -28,7 +28,7 @@
     },
     "errors": { "appenders": ["errors"], "level": "ERROR",
       "enableCallStack": true},
-    "exceptions": { "appenders": ["exceptions"], "level": "FATAL",
+    "exceptions": { "appenders": ["exceptions"], "level": "ERROR",
       "enableCallStack": true}
   }
 }
