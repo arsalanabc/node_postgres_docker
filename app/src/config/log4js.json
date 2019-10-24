@@ -1,0 +1,34 @@
+{
+  "appenders": {
+    "access" : {
+      "type": "dateFile",
+      "filename": "var/log/access.log",
+      "pattern": "-yyyy-MM-dd"
+  },
+    "errorFile": {
+      "type": "file",
+      "filename": "var/log/errors.log"
+    },
+    "errors": {
+      "type": "logLevelFilter",
+      "level": "ERROR",
+      "appender": "errorFile",
+      "category": "errors"
+    },
+    "exceptions": {
+      "type": "file",
+      "level": "FATAL",
+      "filename": "var/log/exceptions.log",
+      "category": "exceptions"
+    }
+  },
+  "categories": {
+    "default": { "appenders": ["access"], "level": "DEBUG",
+      "enableCallStack": true
+    },
+    "errors": { "appenders": ["errors"], "level": "ERROR",
+      "enableCallStack": true},
+    "exceptions": { "appenders": ["exceptions"], "level": "FATAL",
+      "enableCallStack": true}
+  }
+}
