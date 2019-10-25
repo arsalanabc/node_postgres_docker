@@ -1,0 +1,143 @@
+'use strict'
+const proxyquire =  require('proxyquire').noCallThru();
+
+
+
+const sinon = require('sinon');
+const chai = require('chai');
+const spies = require('chai-spies');
+
+chai.use(spies);
+
+const expect = chai.expect;
+const assert = chai.assert;
+
+describe("Shoe", () => {
+
+    const db = {query: () => {}} ;
+
+    const Shoe = proxyquire('../../src/models/Shoe', {
+        '../db': db
+    });
+
+    beforeEach('stub db class', () => {
+        sinon
+            .stub(db, 'query')
+            .returns({then:()=> ({catch:() => {}})});
+    });
+
+    afterEach(() => {
+        sinon.restore();
+    });
+
+
+    describe("should have all the required methods", ()=>{
+        it('has the get function', ()=>{
+            expect(Shoe.get).to.be.a('function');
+        });
+        it('has the insert function', ()=>{
+            expect(Shoe.insert).to.be.a('function');
+        });
+        it('has the truetosize function', ()=>{
+            expect(Shoe.trueToSizeCalculation).to.be.a('function');
+        });
+        it('has the addsize function', ()=>{
+            expect(Shoe.addModelSize).to.be.a('function');
+        });
+    });
+
+    describe('get method', ()=>{
+        it('should return a promise', ()=>{
+            const get = Shoe.get();
+            expect(get.then).to.be.a('function');
+            expect(get.catch).to.be.a('function');
+        });
+        it('should catch error', () => {
+            return Shoe.get()
+                .then(()=> expect.fail('error to catch'))
+                .catch(err => {
+                    expect(err.message).to.eql('error to catch')
+                })
+        });
+        it('should use db client and call query',()=>{
+            const expectedData = [{"id":1,"model":"a"},{"id":2,"model":"b"}];
+            chai.spy.on(db, ['query']);
+            chai.spy.on(db.query(), ['then']);
+            Shoe.get();
+            expect(db.query().then).to.have.been.called(1);
+            expect(db.query).to.have.been.called.with('select * from shoes');
+        });
+    });
+    describe('insert method', ()=>{
+        it('should return a promise', () => {
+            const insert = Shoe.insert().then().catch(e => e);
+            expect(insert.then).to.be.a('function');
+            expect(insert.catch).to.be.a('function');
+
+        });
+        it('should throw error for missing argument', () => {
+            return Shoe.insert()
+                .then(() => {expect.fail()})
+                .catch(err => expect(err.message).to.eql('missing argument'));
+        });
+
+        it('should take a shoe model name', () => {
+            return Shoe.insert('shoeModel')
+                .then(() => {expect.fail()})
+                .catch(err => expect(err.message).not.to.equal('missing argument'));
+        });
+        it('should use db client and call query', () => {
+            chai.spy.on(db, ['query']);
+            Shoe.insert('shoeModel')
+            expect(db.query).to.have.been.called.with('INSERT INTO shoes (model) VALUES ($1)');
+            expect(db.query).to.have.been.called(1);
+        });
+    });
+
+    describe('addModelSize method', ()=>{
+        it('should return a promise', () => {
+            const addModelSize = Shoe.addModelSize().then().catch(e => e);
+            expect(addModelSize.then).to.be.a('function');
+            expect(addModelSize.catch).to.be.a('function');
+        });
+        // come back to this later
+        it('should throw error for invalid data', async () => {
+            return Shoe.addModelSize()
+                .then(() => expect.fail())
+                .catch(err => expect(err.message).to.not.equal('Invalid arguments'));
+            // // await expect.fail();
+        });
+
+        it('should use db client and call query', () => {
+            chai.spy.on(db, ['query']);
+            chai.spy.on(db.query(), ['then']);
+            Shoe.addModelSize({shoeModel:'', size:''});
+            expect(db.query).to.have.been.called.with('SELECT id from shoes WHERE model=$1 limit 1', ['']);
+            expect(db.query).to.have.been.called(2);
+            expect(db.query().then).to.have.been.called(1);
+
+        });
+    });
+
+    describe('trueToSizeCalculation method', ()=>{
+        it('should return a promise', () => {
+            const addModelSize = Shoe.trueToSizeCalculation().then().catch(e => e);
+            expect(addModelSize.then).to.be.a('function');
+            expect(addModelSize.catch).to.be.a('function');
+        });
+
+        it('should throw error for missing argument', () => {
+            return Shoe.trueToSizeCalculation()
+                .then(() => {expect.fail()})
+                .catch(err => expect(err.message).to.eql('missing argument'));
+        });
+
+        it('should use db client and call query', () => {
+            chai.spy.on(db, ['query']);
+            Shoe.trueToSizeCalculation('shoeModel');
+            expect(db.query).to.have.been.called.with('SELECT avg(sd.size) FROM size_data as sd JOIN shoes as s ON s.id=sd.shoe_model WHERE s.model=$1');
+            expect(db.query).to.have.been.called(1);
+
+        });
+    });
+});
