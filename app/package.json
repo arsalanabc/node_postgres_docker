@@ -4,7 +4,7 @@
   "description": "simple node app that runs on a container",
   "main": "server.js",
   "scripts": {
-    "test": "mocha test/*/*.test.js",
+    "test": "mocha test/*/*.test.js --exit",
     "dev": "NODE_ENV=testing nodemon server.js",
     "start": "NODE_ENV=production node server.js"
   },
