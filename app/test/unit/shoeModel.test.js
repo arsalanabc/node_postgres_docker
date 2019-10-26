@@ -23,7 +23,7 @@ describe("Shoe", () => {
     beforeEach('stub db class', () => {
         sinon
             .stub(db, 'query')
-            .returns({then:()=> ({catch:() => {}})});
+            .returns(new Promise(()=>{}, ()=>{}));
     });
 
     afterEach(() => {
@@ -52,13 +52,7 @@ describe("Shoe", () => {
             expect(get.then).to.be.a('function');
             expect(get.catch).to.be.a('function');
         });
-        it('should catch error', () => {
-            return Shoe.get()
-                .then(()=> expect.fail('error to catch'))
-                .catch(err => {
-                    expect(err.message).to.eql('error to catch')
-                })
-        });
+
         it('should use db client and call query',()=>{
             const expectedData = [{"id":1,"model":"a"},{"id":2,"model":"b"}];
             chai.spy.on(db, ['query']);
@@ -75,16 +69,20 @@ describe("Shoe", () => {
             expect(insert.catch).to.be.a('function');
 
         });
-        it('should throw error for missing argument', () => {
-            return Shoe.insert()
-                .then(() => {expect.fail()})
-                .catch(err => expect(err.message).to.eql('missing argument'));
+        it('should throw error for missing argument', async () => {
+            try {
+                await Shoe.insert(1);
+            } catch (err) {
+                expect(err.message).to.eql('missing argument')
+            }
         });
 
-        it('should take a shoe model name', () => {
-            return Shoe.insert('shoeModel')
-                .then(() => {expect.fail()})
-                .catch(err => expect(err.message).not.to.equal('missing argument'));
+        it('should take a string model name', async () => {
+            try {
+                await Shoe.insert();
+            } catch (err) {
+                expect(err.message).to.eql('missing argument')
+            }
         });
         it('should use db client and call query', () => {
             chai.spy.on(db, ['query']);
@@ -100,22 +98,27 @@ describe("Shoe", () => {
             expect(addModelSize.then).to.be.a('function');
             expect(addModelSize.catch).to.be.a('function');
         });
-        // come back to this later
         it('should throw error for invalid data', async () => {
-            return Shoe.addModelSize()
-                .then(() => expect.fail())
-                .catch(err => expect(err.message).to.not.equal('Invalid arguments'));
-            // // await expect.fail();
+            try {
+                await Shoe.addModelSize();
+            } catch (err) {
+                expect(err.message).to.eql('Invalid arguments')
+            }
         });
 
-        it('should use db client and call query', () => {
-            chai.spy.on(db, ['query']);
-            chai.spy.on(db.query(), ['then']);
-            Shoe.addModelSize({shoeModel:'', size:''});
-            expect(db.query).to.have.been.called.with('SELECT id from shoes WHERE model=$1 limit 1', ['']);
-            expect(db.query).to.have.been.called(2);
-            expect(db.query().then).to.have.been.called(1);
+        it('should throw error for invalid data', async () => {
+            try {
+                await Shoe.addModelSize({a:'', b:'',c:''});
+            } catch (err) {
+                expect(err.message).to.eql('Invalid arguments')
+            }
+        });
 
+        it('should use db client and call query', async () => {
+            chai.spy.on(db, ['query']);
+            Shoe.addModelSize({shoeModel:'', size:''})
+            expect(db.query).to.have.been.called.with('SELECT id from shoes WHERE model=$1 limit 1');
+            expect(db.query).to.have.been.called(1);
         });
     });
 
