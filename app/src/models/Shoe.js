@@ -5,7 +5,7 @@ const errorsLogger = require('log4js').getLogger('errors');
 
 const Shoe = {
     insert: async (shoe = null) => {
-        if(shoe == null || typeof shoe != 'string') {
+        if(shoe == null || typeof shoe.model != 'string') {
             throw Error('missing argument');
         };
         const query = 'INSERT INTO shoes (model) VALUES ($1)';

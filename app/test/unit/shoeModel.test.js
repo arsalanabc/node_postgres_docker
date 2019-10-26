@@ -75,14 +75,14 @@ describe("Shoe", () => {
 
         it('should take a string model name', async () => {
             try {
-                await Shoe.insert();
+                await Shoe.insert('whateverNotObject');
             } catch (err) {
                 expect(err.message).to.eql('missing argument')
             }
         });
         it('should use db client and call query', () => {
             chai.spy.on(db, ['query']);
-            Shoe.insert('shoeModel')
+            Shoe.insert({model:'shoeModel'})
             expect(db.query).to.have.been.called.with('INSERT INTO shoes (model) VALUES ($1)');
             expect(db.query).to.have.been.called(1);
         });
