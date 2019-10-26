@@ -1,8 +1,6 @@
 'use strict'
 const proxyquire =  require('proxyquire').noCallThru();
 
-
-
 const sinon = require('sinon');
 const chai = require('chai');
 const spies = require('chai-spies');
@@ -10,7 +8,6 @@ const spies = require('chai-spies');
 chai.use(spies);
 
 const expect = chai.expect;
-const assert = chai.assert;
 
 describe("Shoe", () => {
 
@@ -23,7 +20,7 @@ describe("Shoe", () => {
     beforeEach('stub db class', () => {
         sinon
             .stub(db, 'query')
-            .returns(new Promise(()=>{}, ()=>{}));
+            .returns(Promise.resolve(true));
     });
 
     afterEach(() => {
@@ -54,7 +51,6 @@ describe("Shoe", () => {
         });
 
         it('should use db client and call query',()=>{
-            const expectedData = [{"id":1,"model":"a"},{"id":2,"model":"b"}];
             chai.spy.on(db, ['query']);
             chai.spy.on(db.query(), ['then']);
             Shoe.get();
