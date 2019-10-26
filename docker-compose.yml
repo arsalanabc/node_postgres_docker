@@ -8,3 +8,12 @@ services:
       - ./app/db_init/:/docker-entrypoint-initdb.d/
     ports:
       - 5432:5432
+  test-db:
+    image: postgres
+    container_name: test-postgres
+    env_file:
+      - app/.env
+    volumes:
+      - ./app/db_init/:/docker-entrypoint-initdb.d/
+    ports:
+      - 5433:5432
