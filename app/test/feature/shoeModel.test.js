@@ -10,6 +10,12 @@ const expect = chai.expect;
 const shoe_models = [{model:'shoeModel1'},{model:'shoeModel2'},{model:'shoeModel3'},{model:'shoeModel4'}]
 
 describe('Shoe', () => {
+
+    after(() => {
+        const client = require('../../src/db');
+        client.query('TRUNCATE shoes CASCADE;')
+        client.end();
+    });
     describe('/insert', () => {
         it('should insert shoe models to db', async () => {
             const model1 = await shoe.insert({model:'shoeModel1'})
