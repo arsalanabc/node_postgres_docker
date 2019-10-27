@@ -44,14 +44,17 @@ describe("ShoeController", () => {
             expect(response.send).to.have.been.called(1);
         });
 
-        it('catches error', async () => {
-            sinon.stub(shoe, 'insert').returns(Promise.reject(false));
-            await shoeController.insert(()=>{}, response, testData)
-
-            expect(shoe.insert).to.have.been.called(1);
-            expect(shoe.insert).to.have.been.called.with({model: testData.shoeModel})
-            expect(response.send).to.have.been.called(1);
-            expect(response.status).to.have.been.called(1).with(500)
+        it('handles errors', async () => {
+            sinon.stub(shoe, 'insert').rejects(Error('error'));
+            try {
+                await shoeController.insert(()=>{}, response, testData)
+            } catch (e) {
+                expect(shoe.insert).to.have.been.called(1);
+                expect(shoe.insert).to.have.been.called.with({model: testData.shoeModel})
+                expect(response.send).to.have.been.called(1);
+                expect(response.status).to.have.been.called(1).with(200)
+                expect(e.message).to.equal('error');
+            }
         });
     });
     describe("/get",  ()=>{

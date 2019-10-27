@@ -9,7 +9,7 @@ const expect = chai.expect;
 
 const shoe_models = [{model:'shoeModel1'},{model:'shoeModel2'},{model:'shoeModel3'},{model:'shoeModel4'}]
 
-describe('Shoe', () => {
+describe('Shoe specs', () => {
 
     after(() => {
         const client = require('../../src/db');
@@ -32,6 +32,16 @@ describe('Shoe', () => {
             expect(result.rows[1].model).to.contain(shoe_models[1].model);
             expect(result.rows[2].model).to.contain(shoe_models[2].model);
             expect(result.rows[3].model).to.contain(shoe_models[3].model);
+        });
+
+        it('should not insert duplicate shoe models', async () => {
+            try {
+                await shoe.insert({model:'alreadyShoe'})
+                await shoe.insert({model:'alreadyShoe'})
+            }
+            catch (e){
+                expect(e.message).to.equal('duplicate key value violates unique constraint "shoes_model_key"')
+            }
         });
     });
 

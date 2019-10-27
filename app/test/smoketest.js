@@ -42,12 +42,26 @@ describe('/get' , () => {
 describe('/shoe/insert/:name' , () => {
     it('adds a new shoe model through http', (done) => { // <= Pass in done callback
         chai.request('http://localhost:3000')
-            .get('/shoe/insert/WhateverShoeName')
+            .get('/shoe/insert/'+Math.random()) // creating a unique new shoe model
             .end(function(err, res) {
                 expect(res.text).to.equal('Shoe model inserted');
                 expect(res).to.have.status(200);
                 done();
             });
+    });
+
+    it('doesnt add duplicate shoe models', (done) => { // <= Pass in done callback
+        chai.request('http://localhost:3000')
+            .get('/shoe/insert/randomShoeModel1')
+            .then(() => {
+                chai.request('http://localhost:3000')
+                    .get('/shoe/insert/randomShoeModel1')
+                    .end(function(err, res) {
+                        expect(res.text).to.equal('Shoe Model already exists');
+                        expect(res).to.have.status(200);
+                        done();
+                    });
+            })
     });
 
     it('handles insert shoe route without shoe name', (done) => { // <= Pass in done callback
@@ -97,7 +111,7 @@ describe('/:shoe/addsize/:size' , () => {
                         expect(res).to.have.status(200);
                         done();
                     });
-            })
+            }).catch(e=>console.log(e))
     });
 });
 

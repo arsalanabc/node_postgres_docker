@@ -19,7 +19,7 @@ const Shoe = {
             })
             .catch(e => {
                 errorsLogger.fatal(e);
-                return false;
+                throw e;
             });
     },
     get: async () => {
@@ -32,7 +32,7 @@ const Shoe = {
             })
             .catch(e => {
                 errorsLogger.fatal(e);
-                return false;
+                throw e;
             });
         },
     addModelSize: async (data = null) => {
@@ -58,7 +58,7 @@ const Shoe = {
             })
             .catch(e => {
                 errorsLogger.fatal(e);
-                return e;
+                throw e;
             });
     },
     trueToSizeCalculation: async (shoeModel = null) => {
@@ -74,7 +74,7 @@ const Shoe = {
             })
             .catch(e => {
                 errorsLogger.fatal(e);
-                return false;
+                throw e;
             });
         }
 }

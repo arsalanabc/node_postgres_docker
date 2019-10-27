@@ -10,11 +10,20 @@ const controller = {
             .then(result =>
                 result
                     ?response.send('Shoe model inserted')
-                    :response.send('Error: Shoe model was not inserted')
+                    :response.send('Shoe model was not inserted')
             )
             .catch(err => {
                 exceptionsLogger.error(err)
-                response.status(500)
+                switch (err.code) {
+                    case '23505':
+                        response.status(200)
+                        response.send('Shoe Model already exists');
+                        throw Error('Shoe Model already exists')
+                        break;
+                    default:
+                        response.status(200);
+                        throw err;
+                }
             }); // catch promise rejection
 
     },
@@ -28,6 +37,7 @@ const controller = {
              .catch(err => { // catch promise rejection
                  exceptionsLogger.error(err)
                  response.status(500);
+                 throw err
              });
     },
     addSize: (req, response, data) => {

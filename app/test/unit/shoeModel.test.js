@@ -20,7 +20,7 @@ describe("Shoe", () => {
     beforeEach('stub db class', () => {
         sinon
             .stub(db, 'query')
-            .returns(Promise.resolve(true));
+            .returns(Promise.resolve({rows:[{id:0}]}));
     });
 
     afterEach(() => {
@@ -110,8 +110,9 @@ describe("Shoe", () => {
             }
         });
 
-        it('should use db client and call query', async () => {
+        it('should use db client and call query', () => {
             chai.spy.on(db, ['query']);
+            // sinon.stub(db, 'query').returns(Promise.resolve({rows:[{id:0}]}));
             Shoe.addModelSize({shoeModel:'', size:''})
             expect(db.query).to.have.been.called.with('SELECT id from shoes WHERE model=$1 limit 1');
             expect(db.query).to.have.been.called(1);
