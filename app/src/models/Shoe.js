@@ -46,6 +46,7 @@ const Shoe = {
              query,
             [data.shoeModel])
             .then(result => {
+                if(result.rowCount==0) return false;
                 logger.info(`Data returned for: ${query}`);
                 const shoe_id = result.rows[0].id;
                 logger.info(`Executing: ${insert_size_query}`);
@@ -63,9 +64,7 @@ const Shoe = {
     trueToSizeCalculation: async (shoeModel = null) => {
         if(shoeModel===null) {
             throw Error('missing argument');
-            return false;
         };
-
         const query = 'SELECT avg(sd.size) FROM size_data as sd JOIN shoes as s ON s.id=sd.shoe_model WHERE s.model=$1';
         logger.info(`Executing: ${query}`);
         return await client.query(query, [shoeModel])

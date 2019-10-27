@@ -14,7 +14,6 @@ describe('Shoe', () => {
     after(() => {
         const client = require('../../src/db');
         client.query('TRUNCATE shoes CASCADE;')
-        client.end();
     });
     describe('/insert', () => {
         it('should insert shoe models to db', async () => {
