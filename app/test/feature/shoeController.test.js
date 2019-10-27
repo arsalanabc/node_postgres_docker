@@ -42,7 +42,7 @@ describe('ShoeController specs', () => {
         it('should throw an error with invalid data', async () => {
             // expect(response.status).to.have.been.called.exactly(2);
             await controller.addSize(()=>{}, response, {shoeModel:'doesntExist', size:'3'})
-            expect(response.send).on.nth(7).be.called.with('Error: Size was not inserted');
+            expect(response.send).on.nth(7).be.called.with('Size was not inserted');
         });
 
         it('should throw an error with invalid data 2', async () => {

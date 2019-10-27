@@ -36,7 +36,7 @@ const controller = {
             .then(result =>
             {result
                     ?response.send('Size inserted')
-                    :response.send('Error: Size was not inserted')})
+                    :response.send('Size was not inserted')})
             .catch(err => {
                 exceptionsLogger.log(err)
                 response.status(500);
