@@ -14,7 +14,7 @@ testing = {
     password: process.env.POSTGRES_PASSWORD,
     port: 5433
 }
-const current = process.env.NODE_ENV=='testing'?testing:prod;
+const current = process.env.NODE_ENV=='production'?prod:testing;
 const client = new Client(current);
 client.connect();
 
