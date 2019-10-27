@@ -7,8 +7,8 @@ const controller = {
     insert: (req, response, data) => {
         logger.info('shoe/insert endpoint reached')
         return shoe.insert({model: data.shoeModel})
-            .then(data =>
-                data
+            .then(result =>
+                result
                     ?response.send('Shoe model inserted')
                     :response.send('Error: Shoe model was not inserted')
             )
@@ -21,9 +21,9 @@ const controller = {
     get: (req, response) => {
         logger.info('get endpoint reached')
          return shoe.get()
-             .then(data =>
-                 data
-                     ?response.send(data.rows)
+             .then(result =>
+                 result
+                     ?response.send(result.rows)
                      :response.send('Error: Could\'nt get data'))
              .catch(err => { // catch promise rejection
                  exceptionsLogger.error(err)
@@ -33,10 +33,10 @@ const controller = {
     addSize: (req, response, data) => {
         logger.info('addsize endpoint reached')
         return shoe.addModelSize(data)
-            .then(data =>
-                data
+            .then(result =>
+            {result
                     ?response.send('Size inserted')
-                    :response.send('Error: Size was not inserted'))
+                    :response.send('Error: Size was not inserted')})
             .catch(err => {
                 exceptionsLogger.log(err)
                 response.status(500);
@@ -45,12 +45,12 @@ const controller = {
     trueToSize : (req, response, shoeModel) => {
         logger.info('truetosize endpoint reached')
         return shoe.trueToSizeCalculation(shoeModel)
-            .then(data => {
-                return !data?response.send("Error: No data return"):data.rows[0]
+            .then(result => {
+                return !result?response.send("Error: No data return"):result.rows[0]
             })
             .then(data => {
                 data.avg!=null
-                    ?response.send(`true to size for ${shoeModel} is ${data.avg}`)
+                    ?response.send(`true to size for ${shoeModel} is ${data.avg*1.0}`)
                     :response.send("Shoe not found")})
             .catch(err => {
                 exceptionsLogger.log(err)
