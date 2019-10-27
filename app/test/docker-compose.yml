@@ -1,0 +1,11 @@
+version: '3'
+services:
+  test-db:
+    image: postgres:12
+    container_name: test-postgres
+    env_file:
+      - ./../.env.test
+    volumes:
+      - ./../db_init/:/docker-entrypoint-initdb.d/
+    ports:
+      - 8002:5432
