@@ -18,11 +18,9 @@ const controller = {
                     case '23505':
                         response.status(200)
                         response.send('Shoe Model already exists');
-                        throw Error('Shoe Model already exists')
                         break;
                     default:
                         response.status(200);
-                        throw err;
                 }
             }); // catch promise rejection
 
@@ -37,7 +35,6 @@ const controller = {
              .catch(err => { // catch promise rejection
                  exceptionsLogger.error(err)
                  response.status(500);
-                 throw err
              });
     },
     addSize: (req, response, data) => {
