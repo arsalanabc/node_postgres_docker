@@ -10,7 +10,7 @@ function routes(app) {
         const shoeModel = req.params.shoe;
         const size = req.params.size;
 
-        (size < 0 || size > 5)?
+        (size <= 0 || size > 5)?
             res.send('Please enter size between 0 and 5 inclusive')
             :shoeController.addSize(req, res, {shoeModel, size})
     });
