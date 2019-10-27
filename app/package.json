@@ -7,7 +7,7 @@
     "test": "mocha test/*/*.test.js --exit",
     "test-e2e": "mocha test/smoketest.js",
     "dev": "NODE_ENV=testing nodemon server.js",
-    "start": "NODE_ENV=production node server.js"
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
