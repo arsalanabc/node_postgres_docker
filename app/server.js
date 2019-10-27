@@ -19,7 +19,7 @@ const log = log4js.getLogger();
 
 const routes = require('./src/routes/routes.js')(app);
 
-app.listen(port, () => console.log('app listening at: '+port));
+app.listen(port, () => console.log(`this is ${process.env.NODE_ENV} listening at: ${port}`));
 log.info('app launched and listening at', port);
 
 module.exports = app;
