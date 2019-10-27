@@ -1,7 +1,7 @@
 'use strict';
-require('dotenv').config({ path: '.env'});
-process.env.NODE_ENV='testing'
+require('dotenv').config({path: '.env.test'});
 
+console.log(process.env.APP_URL)
 const controller = require('../../src/controllers/ShoeController');
 
 const chai = require('chai')
