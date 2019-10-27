@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha test/*/*.test.js --exit",
+    "test-e2e": "mocha test/smoketest.js",
     "dev": "NODE_ENV=testing nodemon server.js",
     "start": "NODE_ENV=production node server.js"
   },
@@ -23,6 +24,7 @@
     "sinon": "^7.5.0"
   },
   "devDependencies": {
+    "chai-http": "^4.3.0",
     "proxyquire": "^2.1.3"
   }
 }
