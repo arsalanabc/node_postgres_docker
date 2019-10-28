@@ -5,16 +5,16 @@ This app is developed with NODE.JS and uses Postgres as the database. Also, I ha
 
 ## Setup: 
 NOTE: Your machine must have Node:10, docker and docker-compose installed.
-- Create .env and .evn.test files in root app directory with the following variables
-  - POSTGRES_USER=user
-  - POSTGRES_PASSWORD=password
-  - POSTGRES_DB=db
-  - PORT=3000 (3001 for dev)
-  - DB_PORT=5432 (8002 for dev)
-    * add the following to .env.test file
-    * APP_URL=http://localhost:3001 
+- Create .env and .evn.test files in the root app directory with the following variables
+  - - POSTGRES_USER=user
+  - - POSTGRES_PASSWORD=password
+  - - POSTGRES_DB=db
+  - - PORT=3000 (3001 for dev)
+  - - DB_PORT=5432 (8002 for dev)
+    - * add the following to .env.test file
+    - * APP_URL=http://localhost:3001 
 - ### Test the app in dev mode
-- Download the project
+  - - Download the project
 - Cd into the app/test directory
 - Run `docker-compose up` to setup testing database
 - Run `npm install` to install dependencies
@@ -31,7 +31,7 @@ NOTE: Your machine must have Node:10, docker and docker-compose installed.
 
 *You can also some the app in a container*
 
-# End points
+# Endpoints
 - `/get` to show all the inserted shoes
 - `/shoe/insert/:shoeName` to insert a new shoe model *shoeName*
 - `/:shoeName/addsize/5` to add size 5 for shoe model *shoeName*
