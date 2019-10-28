@@ -16,6 +16,9 @@ testing = {
 }
 const current = process.env.NODE_ENV=='production'?prod:testing;
 const client = new Client(current);
-client.connect();
+client.connect().catch((e) =>{
+        console.error(e)
+        process.exit(1)}
+    );
 
 module.exports = client;
