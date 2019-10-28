@@ -5,6 +5,8 @@ services:
     environment:
       - NODE_ENV=production
       - PGHOST=db
+    volumes:
+      - ./app/var/log/:/usr/app/var/log
     ports:
       - 8080:3000
     depends_on:
