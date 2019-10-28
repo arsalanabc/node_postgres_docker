@@ -11,6 +11,7 @@ services:
       - 8080:3000
     depends_on:
       - db
+    restart: on-failure
 
   db:
     image: postgres:12
