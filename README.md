@@ -9,8 +9,8 @@ NOTE: Your machine must have Node:10, docker and docker-compose installed.
   - POSTGRES_USER=user
   - POSTGRES_PASSWORD=password
   - POSTGRES_DB=db
-  - PORT=3000
-  - DB_PORT=5432
+  - PORT=3000 (3001 for dev)
+  - DB_PORT=5432 (8002 for dev)
     * add the following to .env.test file
     * APP_URL=http://localhost:3001 
 - ### Test the app in dev mode
