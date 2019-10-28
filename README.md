@@ -1,5 +1,5 @@
 # Project Description
-Create a service to different sizes for the shoes and calculate TrueToSize. TrueToSize for a shoe is an average of all the sizes available in that shoe model.
+Create a service to collect different sizes for the shoes and calculate their TrueToSize. TrueToSize for a shoe is an average of all the sizes available in that shoe model.
 
 This app is developed with NODE.JS and uses Postgres as the database. Also, I have containized the app to run on any machine with docker-compose.
 
