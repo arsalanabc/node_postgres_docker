@@ -1,7 +1,7 @@
 # Project Description
 Create a service to different sizes for the shoes and calculate TrueToSize. TrueToSize for a shoe is an average of all the sizes available in that shoe model.
 
-This app is develeped with NODE.JS and uses Postgres as the database. Also, I have containized the app to run on any machine with docker-compose.
+This app is developed with NODE.JS and uses Postgres as the database. Also, I have containized the app to run on any machine with docker-compose.
 
 ## Setup: 
 NOTE: Your machine must have Node:10, docker and docker-compose installed.
@@ -28,3 +28,6 @@ NOTE: Your machine must have Node:10, docker and docker-compose installed.
 - `/shoe/insert/:shoeName` to insert a new shoe model *shoeName*
 - `/:shoeName/addsize/5` to add size 5 for shoe model *shoeName*
 - `/:shoeName/truetosize`to get TrueToSize for mode *shoeName*
+
+# LOGS
+- Logs from the containers are bind to in app/var/log 
